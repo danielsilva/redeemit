@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# pnpm
+pnpm-debug.log*
+.pnpm-debug.log*
+
 # Temporary files
 **/tmp/
 

@@ -2,29 +2,7 @@ import { useState, useEffect } from 'react'
 import Dashboard from './components/Dashboard'
 import RewardsList from './components/RewardsList'
 import RedemptionHistory from './components/RedemptionHistory'
-
-interface User {
-  id: number
-  name: string
-  points_balance: number
-}
-
-interface Reward {
-  id: number
-  name: string
-  description: string
-  points_cost: number
-  available_quantity: number
-}
-
-interface Redemption {
-  id: number
-  reward_name: string
-  points_used: number
-  redeemed_at: string
-}
-
-type ViewType = 'dashboard' | 'rewards' | 'history'
+import type { User, Reward, Redemption, ViewType } from './types'
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard')

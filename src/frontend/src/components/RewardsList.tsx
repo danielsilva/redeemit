@@ -1,12 +1,5 @@
 import React from 'react'
-
-interface Reward {
-  id: number
-  name: string
-  description: string
-  points_cost: number
-  available_quantity: number
-}
+import type { Reward } from '../types'
 
 interface RewardsListProps {
   rewards: Reward[]

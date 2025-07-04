@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react'
-
-interface Redemption {
-  id: number
-  reward_name: string
-  points_used: number
-  redeemed_at: string
-}
+import type { Redemption } from '../types'
 
 interface RedemptionHistoryProps {
   redemptions: Redemption[]

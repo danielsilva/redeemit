@@ -1,10 +1,5 @@
 import React from 'react'
-
-interface User {
-  id: number
-  name: string
-  points_balance: number
-}
+import type { User } from '../types'
 
 interface DashboardProps {
   user: User | null

@@ -1,6 +1,19 @@
 import React from 'react'
 
-const RewardsList = ({ rewards, onRedeem }) => {
+interface Reward {
+  id: number
+  name: string
+  description: string
+  points_cost: number
+  available_quantity: number
+}
+
+interface RewardsListProps {
+  rewards: Reward[]
+  onRedeem: (rewardId: number) => void
+}
+
+const RewardsList: React.FC<RewardsListProps> = ({ rewards, onRedeem }) => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-gray-800">Available Rewards</h2>

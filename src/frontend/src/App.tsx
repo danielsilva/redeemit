@@ -3,11 +3,34 @@ import Dashboard from './components/Dashboard'
 import RewardsList from './components/RewardsList'
 import RedemptionHistory from './components/RedemptionHistory'
 
+interface User {
+  id: number
+  name: string
+  points_balance: number
+}
+
+interface Reward {
+  id: number
+  name: string
+  description: string
+  points_cost: number
+  available_quantity: number
+}
+
+interface Redemption {
+  id: number
+  reward_name: string
+  points_used: number
+  redeemed_at: string
+}
+
+type ViewType = 'dashboard' | 'rewards' | 'history'
+
 function App() {
-  const [currentView, setCurrentView] = useState('dashboard')
-  const [user, setUser] = useState(null)
-  const [rewards, setRewards] = useState([])
-  const [redemptions, setRedemptions] = useState([])
+  const [currentView, setCurrentView] = useState<ViewType>('dashboard')
+  const [user, setUser] = useState<User | null>(null)
+  const [rewards, setRewards] = useState<Reward[]>([])
+  const [redemptions, setRedemptions] = useState<Redemption[]>([])
 
   const API_BASE_URL = 'http://localhost:3000/api'
 
@@ -16,37 +39,37 @@ function App() {
     fetchRewards()
   }, [])
 
-  const fetchUser = async () => {
+  const fetchUser = async (): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/users/1/balance`)
-      const userData = await response.json()
+      const userData: User = await response.json()
       setUser(userData)
     } catch (error) {
       console.error('Error fetching user:', error)
     }
   }
 
-  const fetchRewards = async () => {
+  const fetchRewards = async (): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/rewards`)
-      const rewardsData = await response.json()
+      const rewardsData: Reward[] = await response.json()
       setRewards(rewardsData)
     } catch (error) {
       console.error('Error fetching rewards:', error)
     }
   }
 
-  const fetchRedemptions = async () => {
+  const fetchRedemptions = async (): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/users/1/redemptions`)
-      const redemptionsData = await response.json()
+      const redemptionsData: Redemption[] = await response.json()
       setRedemptions(redemptionsData)
     } catch (error) {
       console.error('Error fetching redemptions:', error)
     }
   }
 
-  const handleRedemption = async (rewardId) => {
+  const handleRedemption = async (rewardId: number): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/redemptions`, {
         method: 'POST',

@@ -1,11 +1,23 @@
 import React, { useEffect } from 'react'
 
-const RedemptionHistory = ({ redemptions, onLoad }) => {
+interface Redemption {
+  id: number
+  reward_name: string
+  points_used: number
+  redeemed_at: string
+}
+
+interface RedemptionHistoryProps {
+  redemptions: Redemption[]
+  onLoad: () => void
+}
+
+const RedemptionHistory: React.FC<RedemptionHistoryProps> = ({ redemptions, onLoad }) => {
   useEffect(() => {
     onLoad()
   }, [onLoad])
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string): string => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
       year: 'numeric',

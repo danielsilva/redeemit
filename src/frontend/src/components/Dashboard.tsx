@@ -1,6 +1,16 @@
 import React from 'react'
 
-const Dashboard = ({ user }) => {
+interface User {
+  id: number
+  name: string
+  points_balance: number
+}
+
+interface DashboardProps {
+  user: User | null
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   if (!user) {
     return (
       <div className="flex justify-center items-center py-12">

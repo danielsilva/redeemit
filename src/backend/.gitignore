@@ -1,0 +1,44 @@
+# Logs
+log/
+*.log
+
+# Temporary files
+**tmp/
+
+# Database
+*.sqlite3
+*.db
+
+# Storage
+storage/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ruby/Rails specific
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

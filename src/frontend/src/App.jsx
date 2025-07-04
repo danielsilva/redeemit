@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import './App.css'
 import Dashboard from './components/Dashboard'
 import RewardsList from './components/RewardsList'
 import RedemptionHistory from './components/RedemptionHistory'
@@ -87,31 +86,45 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Rewards Redemption System</h1>
-        <nav>
-          <button 
-            className={currentView === 'dashboard' ? 'active' : ''}
-            onClick={() => setCurrentView('dashboard')}
-          >
-            Dashboard
-          </button>
-          <button 
-            className={currentView === 'rewards' ? 'active' : ''}
-            onClick={() => setCurrentView('rewards')}
-          >
-            Browse Rewards
-          </button>
-          <button 
-            className={currentView === 'history' ? 'active' : ''}
-            onClick={() => setCurrentView('history')}
-          >
-            My Redemptions
-          </button>
-        </nav>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <header className="bg-slate-800 text-white shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold py-6">Rewards Redemption System</h1>
+          <nav className="flex space-x-1 pb-6">
+            <button 
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                currentView === 'dashboard' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+              onClick={() => setCurrentView('dashboard')}
+            >
+              Dashboard
+            </button>
+            <button 
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                currentView === 'rewards' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+              onClick={() => setCurrentView('rewards')}
+            >
+              Browse Rewards
+            </button>
+            <button 
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                currentView === 'history' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+              onClick={() => setCurrentView('history')}
+            >
+              My Redemptions
+            </button>
+          </nav>
+        </div>
       </header>
-      <main className="app-main">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {renderCurrentView()}
       </main>
     </div>

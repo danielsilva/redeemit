@@ -58,3 +58,42 @@ export function invalidateCache(url?: string) {
     cache.clear()
   }
 }
+
+// Mutation for redeeming rewards
+export async function redeemReward(rewardId: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/redemptions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user_id: 1,
+      reward_id: rewardId
+    })
+  })
+  
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.error || 'Failed to redeem reward')
+  }
+  
+  // Clear cache to trigger refetch of all data
+  invalidateCache()
+}
+
+// Hook for redemption mutation
+export function useRedeemReward() {
+  return {
+    redeemReward: async (rewardId: number) => {
+      try {
+        await redeemReward(rewardId)
+        return { success: true, error: null }
+      } catch (error) {
+        return { 
+          success: false, 
+          error: error instanceof Error ? error.message : 'Failed to redeem reward' 
+        }
+      }
+    }
+  }
+}

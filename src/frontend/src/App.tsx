@@ -4,37 +4,21 @@ import RewardsList from './components/RewardsList'
 import RedemptionHistory from './components/RedemptionHistory'
 import Loading from './components/Loading'
 import ErrorBoundary from './components/ErrorBoundary'
-import { invalidateCache } from './hooks/useApi'
+import { useRedeemReward } from './hooks/useApi'
 import type { ViewType } from './types'
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard')
-
-  const API_BASE_URL = 'http://localhost:3000/api'
+  const { redeemReward } = useRedeemReward()
 
   const handleRedemption = async (rewardId: number): Promise<void> => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/redemptions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: 1,
-          reward_id: rewardId
-        })
-      })
-      
-      if (response.ok) {
-        // Clear cache to trigger refetch
-        invalidateCache()
-        alert('Reward redeemed successfully!')
-      } else {
-        const error = await response.json()
-        alert(`Error: ${error.error}`)
-      }
-    } catch (error) {
-      console.error('Error redeeming reward:', error)
+    const result = await redeemReward(rewardId)
+    
+    if (result.success) {
+      alert('Reward redeemed successfully!')
+    } else {
+      console.error('Error redeeming reward:', result.error)
+      alert(`Error: ${result.error}`)
     }
   }
 

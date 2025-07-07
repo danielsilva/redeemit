@@ -25,13 +25,13 @@ function App() {
   const renderCurrentView = () => {
     switch (currentView) {
       case 'dashboard':
-        return <Dashboard />
+        return <Dashboard onNavigate={setCurrentView} />
       case 'rewards':
         return <RewardsList onRedeem={handleRedemption} />
       case 'history':
         return <RedemptionHistory />
       default:
-        return <Dashboard />
+        return <Dashboard onNavigate={setCurrentView} />
     }
   }
 

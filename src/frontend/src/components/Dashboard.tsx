@@ -1,7 +1,12 @@
 import React from 'react'
 import { useUser } from '../hooks/useApi'
+import type { ViewType } from '../types'
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onNavigate: (view: ViewType) => void
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const user = useUser()
 
   return (
@@ -18,14 +23,22 @@ const Dashboard: React.FC = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6 text-center border border-gray-200 hover:shadow-lg transition-shadow">
+        <button 
+          onClick={() => onNavigate('rewards')}
+          className="bg-white rounded-lg shadow-md p-6 text-center border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer transform hover:scale-105"
+        >
           <h4 className="text-lg font-semibold text-gray-800 mb-2">Browse Rewards</h4>
           <p className="text-gray-600">Discover available rewards you can redeem with your points</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center border border-gray-200 hover:shadow-lg transition-shadow">
+          <div className="mt-4 text-blue-600 font-medium">Click to browse →</div>
+        </button>
+        <button 
+          onClick={() => onNavigate('history')}
+          className="bg-white rounded-lg shadow-md p-6 text-center border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer transform hover:scale-105"
+        >
           <h4 className="text-lg font-semibold text-gray-800 mb-2">Redemption History</h4>
           <p className="text-gray-600">View your past reward redemptions and track your activity</p>
-        </div>
+          <div className="mt-4 text-blue-600 font-medium">Click to view →</div>
+        </button>
       </div>
     </div>
   )

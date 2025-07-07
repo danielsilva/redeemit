@@ -1,18 +1,8 @@
 import React from 'react'
-import type { User } from '../types'
+import { useUser } from '../hooks/useApi'
 
-interface DashboardProps {
-  user: User | null
-}
-
-const Dashboard: React.FC<DashboardProps> = ({ user }) => {
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <div className="text-xl text-gray-600">Loading...</div>
-      </div>
-    )
-  }
+const Dashboard: React.FC = () => {
+  const user = useUser()
 
   return (
     <div className="space-y-8">

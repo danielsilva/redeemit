@@ -1,51 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, Suspense } from 'react'
 import Dashboard from './components/Dashboard'
 import RewardsList from './components/RewardsList'
 import RedemptionHistory from './components/RedemptionHistory'
-import type { User, Reward, Redemption, ViewType } from './types'
+import Loading from './components/Loading'
+import ErrorBoundary from './components/ErrorBoundary'
+import { invalidateCache } from './hooks/useApi'
+import type { ViewType } from './types'
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard')
-  const [user, setUser] = useState<User | null>(null)
-  const [rewards, setRewards] = useState<Reward[]>([])
-  const [redemptions, setRedemptions] = useState<Redemption[]>([])
 
   const API_BASE_URL = 'http://localhost:3000/api'
-
-  useEffect(() => {
-    fetchUser()
-    fetchRewards()
-  }, [])
-
-  const fetchUser = async (): Promise<void> => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/users/1/balance`)
-      const userData: User = await response.json()
-      setUser(userData)
-    } catch (error) {
-      console.error('Error fetching user:', error)
-    }
-  }
-
-  const fetchRewards = async (): Promise<void> => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/rewards`)
-      const rewardsData: Reward[] = await response.json()
-      setRewards(rewardsData)
-    } catch (error) {
-      console.error('Error fetching rewards:', error)
-    }
-  }
-
-  const fetchRedemptions = async (): Promise<void> => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/users/1/redemptions`)
-      const redemptionsData: Redemption[] = await response.json()
-      setRedemptions(redemptionsData)
-    } catch (error) {
-      console.error('Error fetching redemptions:', error)
-    }
-  }
 
   const handleRedemption = async (rewardId: number): Promise<void> => {
     try {
@@ -61,8 +26,8 @@ function App() {
       })
       
       if (response.ok) {
-        fetchUser()
-        fetchRewards()
+        // Clear cache to trigger refetch
+        invalidateCache()
         alert('Reward redeemed successfully!')
       } else {
         const error = await response.json()
@@ -76,13 +41,13 @@ function App() {
   const renderCurrentView = () => {
     switch (currentView) {
       case 'dashboard':
-        return <Dashboard user={user} />
+        return <Dashboard />
       case 'rewards':
-        return <RewardsList rewards={rewards} onRedeem={handleRedemption} />
+        return <RewardsList onRedeem={handleRedemption} />
       case 'history':
-        return <RedemptionHistory redemptions={redemptions} onLoad={fetchRedemptions} />
+        return <RedemptionHistory />
       default:
-        return <Dashboard user={user} />
+        return <Dashboard />
     }
   }
 
@@ -90,7 +55,7 @@ function App() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <header className="bg-slate-800 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold py-6">Rewards Redemption System</h1>
+          <h1 className="text-3xl font-bold py-6">Redeemit!</h1>
           <nav className="flex space-x-1 pb-6">
             <button 
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -126,7 +91,11 @@ function App() {
         </div>
       </header>
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        {renderCurrentView()}
+        <ErrorBoundary>
+          <Suspense fallback={<Loading />}>
+            {renderCurrentView()}
+          </Suspense>
+        </ErrorBoundary>
       </main>
     </div>
   )

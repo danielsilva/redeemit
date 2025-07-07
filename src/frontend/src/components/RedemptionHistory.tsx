@@ -1,15 +1,8 @@
-import React, { useEffect } from 'react'
-import type { Redemption } from '../types'
+import React from 'react'
+import { useRedemptions } from '../hooks/useApi'
 
-interface RedemptionHistoryProps {
-  redemptions: Redemption[]
-  onLoad: () => void
-}
-
-const RedemptionHistory: React.FC<RedemptionHistoryProps> = ({ redemptions, onLoad }) => {
-  useEffect(() => {
-    onLoad()
-  }, [onLoad])
+const RedemptionHistory: React.FC = () => {
+  const redemptions = useRedemptions()
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString)

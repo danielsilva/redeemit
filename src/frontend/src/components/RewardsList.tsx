@@ -1,12 +1,12 @@
 import React from 'react'
-import type { Reward } from '../types'
+import { useRewards } from '../hooks/useApi'
 
 interface RewardsListProps {
-  rewards: Reward[]
   onRedeem: (rewardId: number) => void
 }
 
-const RewardsList: React.FC<RewardsListProps> = ({ rewards, onRedeem }) => {
+const RewardsList: React.FC<RewardsListProps> = ({ onRedeem }) => {
+  const rewards = useRewards()
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-gray-800">Available Rewards</h2>

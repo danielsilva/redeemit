@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { User, Reward, Redemption } from '../types'
 
 const API_BASE_URL = 'http://localhost:3000/api'
@@ -6,7 +6,40 @@ const API_BASE_URL = 'http://localhost:3000/api'
 // Simple cache for demonstration
 const cache = new Map<string, any>()
 
-function fetchWithSuspense<T>(url: string): T {
+// Set of URLs that need to be refetched
+const urlsToRefetch = new Set<string>()
+
+// Subscribers for cache invalidation
+const cacheSubscribers = new Set<() => void>()
+
+// Hook to handle cache invalidation subscription
+function useCacheInvalidationSubscription() {
+  const [, forceUpdate] = useState({})
+  
+  useEffect(() => {
+    const subscriber = () => forceUpdate({})
+    cacheSubscribers.add(subscriber)
+    return () => {
+      cacheSubscribers.delete(subscriber)
+    }
+  }, [])
+}
+
+// Function to handle URL-specific cache invalidation
+function handleCacheInvalidation(url: string) {
+  if (urlsToRefetch.has(url) || urlsToRefetch.has('*')) {
+    cache.delete(url)
+    urlsToRefetch.delete(url)
+    
+    // If we cleared a specific URL and '*' was the only other entry, clear the set
+    if (urlsToRefetch.size === 1 && urlsToRefetch.has('*')) {
+      urlsToRefetch.clear()
+    }
+  }
+}
+
+// Function to get cached data or throw for Suspense
+function getCachedData<T>(url: string): T | null {
   const cached = cache.get(url)
   
   if (cached) {
@@ -18,6 +51,19 @@ function fetchWithSuspense<T>(url: string): T {
       // Still pending
       throw cached.promise
     }
+  }
+  
+  // No cache entry exists
+  return null
+}
+
+function fetchWithSuspense<T>(url: string): T {
+  useCacheInvalidationSubscription()
+  handleCacheInvalidation(url)
+  
+  const cachedResult = getCachedData<T>(url)
+  if (cachedResult !== null) {
+    return cachedResult
   }
 
   // Create promise for Suspense
@@ -54,9 +100,14 @@ export function useRedemptions(): Redemption[] {
 export function invalidateCache(url?: string) {
   if (url) {
     cache.delete(url)
+    urlsToRefetch.add(url)
   } else {
     cache.clear()
+    urlsToRefetch.add('*') // Special marker for "refetch all"
   }
+  
+  // Notify all subscribers to trigger re-renders
+  cacheSubscribers.forEach(subscriber => subscriber())
 }
 
 // Mutation for redeeming rewards
@@ -77,8 +128,10 @@ export async function redeemReward(rewardId: number): Promise<void> {
     throw new Error(error.error || 'Failed to redeem reward')
   }
   
-  // Clear cache to trigger refetch of all data
-  invalidateCache()
+  // Clear specific cache entries for user points and rewards
+  invalidateCache(`${API_BASE_URL}/users/1/balance`)
+  invalidateCache(`${API_BASE_URL}/rewards`)
+  invalidateCache(`${API_BASE_URL}/users/1/redemptions`)
 }
 
 // Hook for redemption mutation

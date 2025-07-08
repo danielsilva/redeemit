@@ -1,5 +1,5 @@
 #!/bin/bash
-# Start both backend and frontend services using overmind
+# Start both API and frontend services using overmind
 
 # Check if overmind is installed
 if ! command -v overmind &> /dev/null; then

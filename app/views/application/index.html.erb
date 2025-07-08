@@ -11,6 +11,12 @@
 
   <body>
     <div id="root">
+    <script>
+      // Inject API base URL for frontend to use
+      window.redeemit = {
+        API_BASE_URL: '<%= "#{request.protocol}#{request.host_with_port}/api" %>'
+      };
+    </script>
     <script type="module" src="<%= js_path('src/main.tsx') %>"></script>
   </body>
 </html>

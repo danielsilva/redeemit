@@ -2,10 +2,15 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV'] = 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
+# Force test environment confirmation
+if ENV['DEBUG_ENV']
+  db_config = Rails.application.config.database_configuration[Rails.env]['database']
+  puts "Running in #{Rails.env} environment with database: #{db_config}"
+end
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
 # that will avoid rails generators crashing because migrations haven't been run yet
 # return unless Rails.env.test?

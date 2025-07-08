@@ -14,11 +14,11 @@ class DashboardPage < BasePage
   end
 
   def click_rewards_link
-    click_link 'Browse Rewards'
+    click_on 'Browse Rewards'
   end
 
   def click_history_link
-    click_link 'Redemption History'
+    click_on 'Redemption History'
   end
 
   def has_welcome_message?

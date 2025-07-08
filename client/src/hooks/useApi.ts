@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { User, Reward, Redemption } from '../types'
 
-const API_BASE_URL = 'http://localhost:3000/api'
+const API_BASE_URL = window.redeemit?.API_BASE_URL || 'http://localhost:3000/api'
 
 // Simple cache for demonstration
 const cache = new Map<string, any>()

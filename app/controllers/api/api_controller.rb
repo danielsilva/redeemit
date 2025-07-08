@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Api
   # Base API Controller
   class ApiController < ActionController::API

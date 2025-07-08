@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class RedemptionHistoryPage < BasePage
   def visit_page
     visit '/history'

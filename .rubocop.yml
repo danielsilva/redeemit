@@ -1,8 +1,10 @@
-# frozen_string_literal: true
-
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.2
+
+# Disable frozen string literal requirement
+Style/FrozenStringLiteralComment:
+  Enabled: false
 
 # Allow longer blocks in schema files and test files
 Metrics/BlockLength:

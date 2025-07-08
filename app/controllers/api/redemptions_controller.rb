@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Api
   # Controller for handling reward redemptions
   class RedemptionsController < Api::ApiController

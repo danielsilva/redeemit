@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module AuthenticationHelpers
   def switch_user(user)
     @current_user = user

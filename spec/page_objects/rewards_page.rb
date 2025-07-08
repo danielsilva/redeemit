@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class RewardsPage < BasePage
   def visit_page
     visit '/rewards'

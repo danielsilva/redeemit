@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Api
   # Controller for handling users
   class UsersController < Api::ApiController

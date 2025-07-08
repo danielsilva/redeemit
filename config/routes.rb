@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -13,9 +11,9 @@ Rails.application.routes.draw do
   namespace :api do
     get 'users/:id/balance', to: 'users#balance'
     get 'rewards', to: 'rewards#index'
-    
+
     resources :users, only: [] do
-      resources :redemptions, only: [:index, :create]
+      resources :redemptions, only: %i[index create]
     end
   end
 

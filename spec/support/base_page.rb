@@ -15,23 +15,11 @@ class BasePage
 
   def has_success_message?(message)
     has_css?('[data-testid="success-message"]', text: message)
+    click_on 'OK'
   end
 
   def has_error_message?(message)
     has_css?('[data-testid="error-message"]', text: message)
-  end
-
-  def wait_for_ajax
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      loop until finished_all_ajax_requests?
-    end
-  end
-
-  private
-
-  def finished_all_ajax_requests?
-    page.evaluate_script('jQuery.active').zero?
-  rescue StandardError
-    true
+    click_on 'OK'
   end
 end

@@ -24,17 +24,12 @@ RSpec.describe 'Reward Redemption', type: :acceptance, js: true do
 
       initial_quantity = rewards_page.reward_available_quantity(reward.name)
 
-      # Redeem the reward
       rewards_page.redeem_reward(reward.name)
 
-      # Verify success message or updated state
       expect(rewards_page).to have_success_message('Reward redeemed successfully')
-
-      # Verify quantity decreased
       expect(rewards_page.reward_available_quantity(reward.name)).to eq(initial_quantity - 1)
 
-      # Navigate to history and verify redemption appears
-      rewards_page.click_link('History')
+      rewards_page.click_link_or_button('My Redemptions')
       expect(history_page).to have_redemption(reward.name)
       expect(history_page).to have_recent_redemption(reward.name)
     end

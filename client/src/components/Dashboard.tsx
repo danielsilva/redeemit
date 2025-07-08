@@ -12,11 +12,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   return (
     <div className="space-y-8">
       <div className="bg-white rounded-lg shadow-md p-8 text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome, {user.name}!</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome, <span data-testid="user-name">{user.name}</span>!</h2>
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-700 mb-2">Your Points Balance</h3>
           <div className="flex items-center justify-center space-x-2 mt-4">
-            <span className="text-5xl font-bold text-blue-600">{user.points_balance}</span>
+            <span className="text-5xl font-bold text-blue-600" data-testid="points-balance">{user.points_balance}</span>
             <span className="text-xl text-gray-500">points</span>
           </div>
         </div>

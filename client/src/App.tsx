@@ -9,17 +9,21 @@ import type { ViewType } from './types'
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewType>('dashboard')
+  const [message, setMessage] = useState<{type: 'success' | 'error', text: string} | null>(null)
   const { redeemReward } = useRedeemReward()
 
   const handleRedemption = async (rewardId: number): Promise<void> => {
     const result = await redeemReward(rewardId)
     
     if (result.success) {
-      alert('Reward redeemed successfully!')
+      setMessage({type: 'success', text: 'Reward redeemed successfully!'})
     } else {
       console.error('Error redeeming reward:', result.error)
-      alert(`Error: ${result.error}`)
+      setMessage({type: 'error', text: result.error || 'Failed to redeem reward'})
     }
+    
+    // Clear message after 3 seconds
+    setTimeout(() => setMessage(null), 3000)
   }
 
 
@@ -63,6 +67,15 @@ function App() {
         </div>
       </header>
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        {message && (
+          <div className={`mb-4 p-4 rounded-md ${
+            message.type === 'success' 
+              ? 'bg-green-100 border border-green-400 text-green-700' 
+              : 'bg-red-100 border border-red-400 text-red-700'
+          }`} data-testid={`${message.type}-message`}>
+            {message.text}
+          </div>
+        )}
         <ErrorBoundary>
           <Suspense fallback={<Loading />}>
             {currentView === 'dashboard' && <Dashboard onNavigate={setCurrentView} />}

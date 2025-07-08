@@ -10,7 +10,7 @@ class RewardsPage < BasePage
   end
 
   def reward_card(reward_name)
-    find('.reward-card', text: reward_name)
+    find('[data-testid="reward-card"]', text: reward_name)
   end
 
   def redeem_reward(reward_name)
@@ -21,13 +21,13 @@ class RewardsPage < BasePage
 
   def reward_points_cost(reward_name)
     within reward_card(reward_name) do
-      find('.points-cost').text.to_i
+      find('[data-testid="points-cost"]').text.to_i
     end
   end
 
   def reward_available_quantity(reward_name)
     within reward_card(reward_name) do
-      find('.available-quantity').text.to_i
+      find('[data-testid="available-quantity"]').text.to_i
     end
   end
 

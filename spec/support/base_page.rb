@@ -14,11 +14,11 @@ class BasePage
   end
 
   def has_success_message?(message)
-    has_css?('.alert-success, .notice', text: message)
+    has_css?('[data-testid="success-message"]', text: message)
   end
 
   def has_error_message?(message)
-    has_css?('.alert-danger, .alert, .error', text: message)
+    has_css?('[data-testid="error-message"]', text: message)
   end
 
   def wait_for_ajax

@@ -12,11 +12,11 @@ const RewardsList: React.FC<RewardsListProps> = ({ onRedeem }) => {
       <h2 className="text-2xl font-bold text-gray-800">Available Rewards</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {rewards.map(reward => (
-          <div key={reward.id} className="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+          <div key={reward.id} className="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow" data-testid="reward-card">
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">{reward.name}</h3>
-                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium" data-testid="points-cost">
                   {reward.points_cost} points
                 </span>
               </div>
@@ -24,7 +24,7 @@ const RewardsList: React.FC<RewardsListProps> = ({ onRedeem }) => {
                 <p className="text-gray-600">{reward.description}</p>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-gray-500">Available:</span>
-                  <span className="font-medium text-green-600">{reward.available_quantity}</span>
+                  <span className="font-medium text-green-600" data-testid="available-quantity">{reward.available_quantity}</span>
                 </div>
               </div>
               <div className="mt-6 flex justify-center">

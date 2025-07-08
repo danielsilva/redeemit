@@ -29,13 +29,13 @@ const RedemptionHistory: React.FC = () => {
       ) : (
         <div className="space-y-4">
           {redemptions.map(redemption => (
-            <div key={redemption.id} className="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex justify-between items-center">
+            <div key={redemption.id} className="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex justify-between items-center" data-testid="redemption-row">
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-gray-800 mb-1">{redemption.reward_name}</h3>
-                <p className="text-sm text-gray-500">{formatDate(redemption.redeemed_at)}</p>
+                <p className="text-sm text-gray-500" data-testid="redeemed-at">{formatDate(redemption.redeemed_at)}</p>
               </div>
               <div className="text-right">
-                <span className="text-lg font-bold text-red-600">-{redemption.points_used} points</span>
+                <span className="text-lg font-bold text-red-600" data-testid="points-used">-{redemption.points_used} points</span>
               </div>
             </div>
           ))}

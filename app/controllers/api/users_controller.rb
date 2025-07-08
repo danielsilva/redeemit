@@ -10,8 +10,6 @@ module Api
         name: user.name,
         points_balance: user.points_balance
       }
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'User not found' }, status: :not_found
     end
   end
 end

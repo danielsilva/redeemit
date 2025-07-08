@@ -12,12 +12,12 @@ class Api::UsersController < Api::ApiController
 
   def redemptions
     user = User.find(params[:id])
-    redemptions = user.redemptions.includes(:reward).order(created_at: :desc)
+    redemptions = user.redemptions.includes(:reward).order(redeemed_at: :desc)
 
     render json: redemptions.map do |redemption|
       {
         id: redemption.id,
-        reward_name: redemption.reward.name,
+        reward_name: redemption.reward&.name,
         points_used: redemption.points_used,
         redeemed_at: redemption.redeemed_at
       }

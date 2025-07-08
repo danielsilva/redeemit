@@ -7,7 +7,15 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://localhost:3001"
+    origins do |source, env|
+      if Rails.env.development? || Rails.env.test?
+        # Allow any localhost port for development/testing (including dynamic Capybara ports)
+        source =~ /\Ahttp:\/\/localhost:\d+\z/
+      else
+        # Production: only allow specific origins for security
+        %w[].include?(source)
+      end
+    end
 
     resource "*",
       headers: :any,

@@ -9,9 +9,9 @@ export default defineConfig(({ mode }) => ({
     port: 3001
   },
   build: {
-    // Only output to backend assets folder in production
+    // Only output to root public assets folder in production
     ...(mode === 'production' && {
-      outDir: '../backend/public/assets',
+      outDir: '../public/assets',
       emptyOutDir: false, // Don't empty the entire assets folder, just replace our files
       manifest: true, // Generate manifest.json for asset fingerprinting
       rollupOptions: {

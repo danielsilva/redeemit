@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Api
+  # Controller for handling rewards
   class RewardsController < Api::ApiController
     def index
       rewards = Reward.available.order(:points_cost)

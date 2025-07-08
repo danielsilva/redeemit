@@ -7,11 +7,7 @@ module Api
       user = User.find(params[:user_id])
       reward = Reward.find(params[:reward_id])
 
-      ActiveRecord::Base.transaction do
-        redemption = create_redemption(user, reward)
-        update_user_and_reward(user, reward)
-        render_success_response(redemption, user)
-      end
+      process_redemption(user, reward)
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'User or reward not found' }, status: :not_found
     rescue ActiveRecord::RecordInvalid => e
@@ -19,6 +15,14 @@ module Api
     end
 
     private
+
+    def process_redemption(user, reward)
+      ActiveRecord::Base.transaction do
+        redemption = create_redemption(user, reward)
+        update_user_and_reward(user, reward)
+        render_success_response(redemption, user)
+      end
+    end
 
     def create_redemption(user, reward)
       Redemption.create!(

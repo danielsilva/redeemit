@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2
+
+# Allow longer blocks in schema files and test files
+Metrics/BlockLength:
+  Exclude:
+    - 'db/schema.rb'
+    - 'bin/bundle'
+    - 'spec/**/*'
+
+# Allow longer methods in generated files
+Metrics/MethodLength:
+  Exclude:
+    - 'bin/bundle'
+
+# Allow higher complexity in generated files
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'bin/bundle'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'bin/bundle'

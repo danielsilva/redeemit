@@ -12,4 +12,4 @@ RSpec.configure do |config|
 end
 
 # Load all page objects after BasePage is defined
-Dir[Rails.root.join('spec/page_objects/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/page_objects/**/*.rb')].each { |f| require f }

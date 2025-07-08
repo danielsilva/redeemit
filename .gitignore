@@ -1,0 +1,52 @@
+# Rails/Backend files
+log/
+*.log
+tmp/
+*.sqlite3
+*.db
+storage/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+public/
+
+# Frontend files in client/
+client/logs
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+client/pnpm-debug.log*
+client/lerna-debug.log*
+client/node_modules/
+client/dist/
+client/dist-ssr/
+client/*.local
+client/.pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db

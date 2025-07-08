@@ -8,24 +8,8 @@ set -e  # Exit on any error
 echo "🚀 Setting up RedeemIt Development Environment"
 echo "=============================================="
 
-# Check if Ruby 3.4.3 is installed
-echo "📋 Checking Ruby version..."
-if ! ruby --version | grep -q "3.4.3"; then
-    echo "❌ Ruby 3.4.3 is not installed or not active"
-    echo "Please install Ruby 3.4.3 using rbenv:"
-    echo "  rbenv install 3.4.3"
-    echo "  rbenv global 3.4.3"
-    exit 1
-fi
-echo "✅ Ruby 3.4.3 is installed"
-
-# Check if bundler is installed
-echo "📋 Checking Bundler..."
-if ! command -v bundle &> /dev/null; then
-    echo "📦 Installing Bundler..."
-    gem install bundler
-fi
-echo "✅ Bundler is available"
+# Initialize rbenv
+eval "$(rbenv init -)"
 
 # Install Ruby dependencies
 echo "📦 Installing Ruby dependencies..."
@@ -82,7 +66,4 @@ bundle exec rspec spec/integration/api/redemptions_controller/create_spec.rb --f
 echo ""
 echo "🎉 Development environment setup complete!"
 echo ""
-echo "To start the application:"
-echo "  ./scripts/start-dev.sh    # Start both backend and frontend with overmind"
-echo "  # OR"
-echo "  overmind start           # Start with overmind directly"
+echo "To start the application run: ./scripts/start-dev.sh"

@@ -8,25 +8,6 @@ set -e  # Exit on any error
 echo "🧪 Setting up RedeemIt Test Environment"
 echo "======================================="
 
-# Check if Ruby 3.4.3 is installed
-echo "📋 Checking Ruby version..."
-if ! ruby --version | grep -q "3.4.3"; then
-    echo "❌ Ruby 3.4.3 is not installed or not active"
-    echo "Please install Ruby 3.4.3 using rbenv:"
-    echo "  rbenv install 3.4.3"
-    echo "  rbenv global 3.4.3"
-    exit 1
-fi
-echo "✅ Ruby 3.4.3 is installed"
-
-# Check if bundler is installed
-echo "📋 Checking Bundler..."
-if ! command -v bundle &> /dev/null; then
-    echo "📦 Installing Bundler..."
-    gem install bundler
-fi
-echo "✅ Bundler is available"
-
 # Install Ruby dependencies
 echo "📦 Installing Ruby dependencies..."
 bundle install
@@ -36,14 +17,34 @@ echo "🗄️  Setting up test database..."
 RAILS_ENV=test rails db:create
 RAILS_ENV=test rails db:migrate
 
-# Check if Chrome/Chromium is available for acceptance tests
-echo "📋 Checking browser for acceptance tests..."
-if command -v google-chrome &> /dev/null || command -v chromium-browser &> /dev/null || command -v chromium &> /dev/null; then
-    echo "✅ Chrome/Chromium is available for acceptance tests"
-else
-    echo "⚠️  Chrome/Chromium not found - acceptance tests may not work"
-    echo "Please install Chrome or Chromium for full test suite"
+# Check if Node.js is installed
+echo "📋 Checking Node.js..."
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is not installed"
+    echo "Please install Node.js from https://nodejs.org"
+    exit 1
 fi
+echo "✅ Node.js is installed"
+
+# Check if pnpm is installed
+echo "📋 Checking pnpm..."
+if ! command -v pnpm &> /dev/null; then
+    echo "📦 Installing pnpm..."
+    npm install -g pnpm
+fi
+echo "✅ pnpm is available"
+
+# Install frontend dependencies
+echo "📦 Installing frontend dependencies..."
+cd client
+pnpm install
+cd ..
+
+# Build frontend for production
+echo "🔨 Building frontend for production..."
+cd client
+pnpm run build:production
+cd ..
 
 # Run database cleaner setup
 echo "🧹 Setting up database cleaner..."
@@ -55,5 +56,5 @@ bundle exec rspec spec/integration/api/redemptions_controller/create_spec.rb --f
 
 echo ""
 echo "🎉 Test environment setup complete!"
-echo "To run all tests:"
-echo "bundle exec rspec"
+echo ""
+echo "To run all tests run: bundle exec rspec"

@@ -37,19 +37,16 @@ RSpec.describe 'Reward Redemption', type: :acceptance, js: true do
 
   describe 'insufficient points' do
     it 'cannot redeem reward with insufficient points' do
-      create(:user, :with_low_balance) # Switch to this user context
+      low_balance_user = create(:user, :with_low_balance)
+      switch_user(low_balance_user)
       expensive_reward = create(:reward, :expensive)
 
-      # Navigate to rewards
       dashboard_page.click_rewards_link
 
-      # Attempt to redeem expensive reward
       rewards_page.redeem_reward(expensive_reward.name)
 
-      # Verify error message
       expect(rewards_page).to have_insufficient_points_message
 
-      # Verify redemption didn't occur
       history_page.visit_page
       expect(history_page).not_to have_redemption(expensive_reward.name)
     end
@@ -61,8 +58,9 @@ RSpec.describe 'Reward Redemption', type: :acceptance, js: true do
 
       dashboard_page.click_rewards_link
 
-      # Verify out of stock message
-      expect(rewards_page).to have_out_of_stock_message
+      # Verify out of stock reward is visible but shows out of stock message
+      expect(rewards_page).to have_reward(out_of_stock_reward.name)
+      expect(rewards_page).to have_out_of_stock_message(out_of_stock_reward.name)
       expect(rewards_page).not_to have_redeem_button(out_of_stock_reward.name)
     end
   end

@@ -4,7 +4,7 @@ module Api
   # Controller for handling rewards
   class RewardsController < Api::ApiController
     def index
-      rewards = Reward.available.order(:points_cost)
+      rewards = Reward.order(:points_cost)
 
       render json: rewards.map do |reward|
         {

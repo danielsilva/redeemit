@@ -41,7 +41,9 @@ class RewardsPage < BasePage
     has_content?('Insufficient points')
   end
 
-  def has_out_of_stock_message?
-    has_content?('Out of stock')
+  def has_out_of_stock_message?(reward_name)
+    within reward_card(reward_name) do
+      has_content?('Out of Stock')
+    end
   end
 end

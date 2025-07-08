@@ -3,6 +3,12 @@ import type { User, Reward, Redemption } from '../types'
 
 const API_BASE_URL = window.redeemit?.API_BASE_URL || 'http://localhost:3000/api'
 
+// Get current user ID from localStorage or default to 1
+function getCurrentUserId(): number {
+  const userId = localStorage.getItem('current_user_id')
+  return userId ? parseInt(userId, 10) : 1
+}
+
 // Simple cache for demonstration
 const cache = new Map<string, any>()
 
@@ -85,7 +91,8 @@ function fetchWithSuspense<T>(url: string): T {
 }
 
 export function useUser(): User {
-  return fetchWithSuspense<User>(`${API_BASE_URL}/users/1/balance`)
+  const userId = getCurrentUserId()
+  return fetchWithSuspense<User>(`${API_BASE_URL}/users/${userId}/balance`)
 }
 
 export function useRewards(): Reward[] {
@@ -93,7 +100,8 @@ export function useRewards(): Reward[] {
 }
 
 export function useRedemptions(): Redemption[] {
-  return fetchWithSuspense<Redemption[]>(`${API_BASE_URL}/users/1/redemptions`)
+  const userId = getCurrentUserId()
+  return fetchWithSuspense<Redemption[]>(`${API_BASE_URL}/users/${userId}/redemptions`)
 }
 
 // Helper to clear cache (for after mutations)
@@ -118,7 +126,7 @@ export async function redeemReward(rewardId: number): Promise<void> {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      user_id: 1,
+      user_id: getCurrentUserId(),
       reward_id: rewardId
     })
   })
@@ -129,9 +137,10 @@ export async function redeemReward(rewardId: number): Promise<void> {
   }
   
   // Clear specific cache entries for user points and rewards
-  invalidateCache(`${API_BASE_URL}/users/1/balance`)
+  const userId = getCurrentUserId()
+  invalidateCache(`${API_BASE_URL}/users/${userId}/balance`)
   invalidateCache(`${API_BASE_URL}/rewards`)
-  invalidateCache(`${API_BASE_URL}/users/1/redemptions`)
+  invalidateCache(`${API_BASE_URL}/users/${userId}/redemptions`)
 }
 
 // Hook for redemption mutation

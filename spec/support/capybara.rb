@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Capybara configuration for acceptance tests
 require 'capybara/rspec'
 require 'selenium-webdriver'
@@ -31,12 +33,12 @@ Capybara.register_driver :selenium_chrome do |app|
   options.add_argument('--disable-dev-shm-usage')
   options.add_argument('--window-size=1920,1080')
   options.add_argument('--disable-blink-features=AutomationControlled')
-  
+
   # Enable DevTools and debugging features
   options.add_argument('--enable-logging')
   options.add_argument('--log-level=0')
   options.add_argument('--remote-debugging-port=9222')
-  
+
   # Keep browser open longer for debugging
   options.add_argument('--disable-backgrounding-occluded-windows')
   options.add_argument('--disable-renderer-backgrounding')
@@ -61,12 +63,12 @@ RSpec.configure do |config|
   config.before(:each, type: :acceptance) do
     # Set visible Chrome driver
     Capybara.current_driver = :selenium_chrome
-    
+
     # Reset sessions and ensure fresh server start
     Capybara.reset_sessions!
     Capybara.current_session.server.boot if Capybara.current_session.server.respond_to?(:boot)
   end
-  
+
   config.after(:each, type: :acceptance) do
     # Clean up sessions and return to default driver
     Capybara.reset_sessions!
@@ -77,13 +79,13 @@ end
 # Helper method to open DevTools programmatically
 def open_devtools
   return unless Capybara.current_driver == :selenium_chrome
-  
+
   begin
     # Try to open DevTools using Chrome DevTools Protocol
     page.driver.browser.action.key_down(:f12).perform
     sleep(0.5) # Give DevTools time to open
-  rescue => e
+  rescue StandardError => e
     puts "Could not open DevTools automatically: #{e.message}"
-    puts "You can manually open DevTools by pressing F12 in the Chrome window"
+    puts 'You can manually open DevTools by pressing F12 in the Chrome window'
   end
 end

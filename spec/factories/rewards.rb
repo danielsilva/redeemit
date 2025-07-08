@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :reward do
     sequence(:name) { |n| "Reward #{n}" }
@@ -22,8 +24,8 @@ FactoryBot.define do
     end
 
     trait :popular do
-      name { "Popular Reward" }
-      description { "A very popular reward that everyone wants" }
+      name { 'Popular Reward' }
+      description { 'A very popular reward that everyone wants' }
       points_cost { 250 }
       available_quantity { 5 }
     end

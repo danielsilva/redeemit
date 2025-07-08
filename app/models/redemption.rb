@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redemption < ApplicationRecord
   belongs_to :user
   belongs_to :reward
@@ -20,14 +22,14 @@ class Redemption < ApplicationRecord
   end
 
   def user_has_sufficient_points
-    unless user.can_redeem?(reward)
-      errors.add(:base, 'Insufficient points')
-    end
+    return if user.can_redeem?(reward)
+
+    errors.add(:base, 'Insufficient points')
   end
 
   def reward_is_available
-    if reward.available_quantity <= 0
-      errors.add(:base, 'Reward is out of stock')
-    end
+    return unless reward.available_quantity <= 0
+
+    errors.add(:base, 'Reward is out of stock')
   end
 end

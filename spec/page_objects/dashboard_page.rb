@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DashboardPage < BasePage
   def visit_page
     visit '/'

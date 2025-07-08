@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Reward < ApplicationRecord
   has_many :redemptions, dependent: :destroy
   has_many :users, through: :redemptions
@@ -7,5 +9,5 @@ class Reward < ApplicationRecord
   validates :points_cost, presence: true, numericality: { greater_than: 0 }
   validates :available_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  scope :available, -> { where("available_quantity > 0") }
+  scope :available, -> { where('available_quantity > 0') }
 end

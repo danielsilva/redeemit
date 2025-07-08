@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Api::RedemptionsController, type: :request do
@@ -14,12 +16,12 @@ RSpec.describe Api::RedemptionsController, type: :request do
       end
 
       it 'creates a new redemption' do
-        expect {
+        expect do
           post '/api/redemptions', params: valid_params, as: :json
-        }.to change(Redemption, :count).by(1)
+        end.to change(Redemption, :count).by(1)
 
         expect(response).to have_http_status(:created)
-        
+
         redemption = Redemption.last
         expect(redemption.user).to eq(user)
         expect(redemption.reward).to eq(reward)
@@ -30,25 +32,25 @@ RSpec.describe Api::RedemptionsController, type: :request do
 
       it 'decreases reward available quantity' do
         initial_quantity = reward.available_quantity
-        
+
         post '/api/redemptions', params: valid_params, as: :json
-        
+
         reward.reload
         expect(reward.available_quantity).to eq(initial_quantity - 1)
       end
 
       it 'decreases user points balance' do
         initial_balance = user.points_balance
-        
+
         post '/api/redemptions', params: valid_params, as: :json
-        
+
         user.reload
         expect(user.points_balance).to eq(initial_balance - reward.points_cost)
       end
 
       it 'returns the created redemption' do
         post '/api/redemptions', params: valid_params, as: :json
-        
+
         json_response = JSON.parse(response.body)
         expect(json_response['reward_name']).to eq(reward.name)
         expect(json_response['points_used']).to eq(reward.points_cost)
@@ -67,16 +69,16 @@ RSpec.describe Api::RedemptionsController, type: :request do
       end
 
       it 'does not create a redemption' do
-        expect {
+        expect do
           post '/api/redemptions', params: invalid_params, as: :json
-        }.not_to change(Redemption, :count)
+        end.not_to change(Redemption, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns an error message' do
         post '/api/redemptions', params: invalid_params, as: :json
-        
+
         json_response = JSON.parse(response.body)
         expect(json_response['error']).to include('Insufficient points')
       end
@@ -92,16 +94,16 @@ RSpec.describe Api::RedemptionsController, type: :request do
       end
 
       it 'does not create a redemption' do
-        expect {
+        expect do
           post '/api/redemptions', params: invalid_params, as: :json
-        }.not_to change(Redemption, :count)
+        end.not_to change(Redemption, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns an error message' do
         post '/api/redemptions', params: invalid_params, as: :json
-        
+
         json_response = JSON.parse(response.body)
         expect(json_response['error']).to include('Reward is out of stock')
       end
@@ -113,12 +115,12 @@ RSpec.describe Api::RedemptionsController, type: :request do
 
     it 'returns all redemptions for the user' do
       get "/api/users/#{user.id}/redemptions", as: :json
-      
+
       expect(response).to have_http_status(:ok)
-      
+
       json_response = JSON.parse(response.body)
       expect(json_response.length).to eq(3)
-      
+
       json_response.each do |redemption_json|
         expect(redemption_json).to include(
           'points_used' => be_a(Integer),
@@ -128,15 +130,15 @@ RSpec.describe Api::RedemptionsController, type: :request do
     end
 
     it 'returns redemptions in descending order by redeemed_at' do
-      old_redemption = create(:redemption, :old, user: user)
-      recent_redemption = create(:redemption, :recent, user: user)
-      
+      create(:redemption, :old, user: user)
+      create(:redemption, :recent, user: user)
+
       get "/api/users/#{user.id}/redemptions", as: :json
-      
+
       json_response = JSON.parse(response.body)
       first_redemption_date = Date.parse(json_response.first['redeemed_at'])
       last_redemption_date = Date.parse(json_response.last['redeemed_at'])
-      
+
       expect(first_redemption_date).to be >= last_redemption_date
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Page Object Helper for acceptance tests
 module PageObjectHelper
   def page_object(page_class)
@@ -10,4 +12,4 @@ RSpec.configure do |config|
 end
 
 # Load all page objects after BasePage is defined
-Dir[Rails.root.join('spec/page_objects/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/page_objects/**/*.rb')].sort.each { |f| require f }

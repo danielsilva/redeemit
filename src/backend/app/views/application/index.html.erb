@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RedeemIt!</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <%= css_tags('src/main.tsx') %>
+  </head>
+
+  <body>
+    <div id="root">
+    <script type="module" src="<%= js_path('src/main.tsx') %>"></script>
+  </body>
+</html>

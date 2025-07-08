@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::UsersController, type: :request do
+RSpec.describe Api::RedemptionsController, type: :request do
   let(:user) { create(:user, :with_high_balance) }
 
   describe 'GET /api/users/:id/redemptions' do

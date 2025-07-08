@@ -1,6 +1,5 @@
 # RedeemIt
 
-
 ## Prerequisites
 
 - Ruby 3.4.3
@@ -19,15 +18,7 @@ For the fastest setup, use the provided script:
 ./scripts/setup-dev.sh
 ```
 
-#### Start Both Servers
-
-Use the provided script to start both backend and frontend:
-
-```bash
-./scripts/start-dev.sh
-```
-
-## Testing
+## Testing Environment
 
 ### Quick Test Setup
 
@@ -35,25 +26,4 @@ Use the automated setup script:
 
 ```bash
 ./scripts/setup-test.sh
-```
-
-### Backend Tests
-
-Run the full test suite:
-
-```bash
-# Run all tests
-bundle exec rspec
-```
-
-### Test Database
-
-The test database is automatically managed by RSpec:
-
-```bash
-# Reset test database
-RAILS_ENV=test rails db:reset
-
-# Run test migrations
-RAILS_ENV=test rails db:migrate
 ```

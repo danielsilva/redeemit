@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # Page Object Helper for acceptance tests
 module PageObjectHelper

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # Model representing a reward redemption by a user
 class Redemption < ApplicationRecord

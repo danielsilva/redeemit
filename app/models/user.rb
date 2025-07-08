@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # Model representing a user who can redeem rewards
 class User < ApplicationRecord

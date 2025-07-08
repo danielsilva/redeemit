@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # Base Page Object class
 class BasePage

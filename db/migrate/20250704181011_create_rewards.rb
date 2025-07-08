@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # Migration to create rewards table
 class CreateRewards < ActiveRecord::Migration[8.0]

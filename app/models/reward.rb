@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # Model representing a reward that can be redeemed with points
 class Reward < ApplicationRecord

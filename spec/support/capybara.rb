@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # Capybara configuration for acceptance tests
 require 'capybara/rspec'

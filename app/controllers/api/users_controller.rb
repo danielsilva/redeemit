@@ -13,25 +13,5 @@ module Api
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'User not found' }, status: :not_found
     end
-
-    def redemptions
-      user = User.find(params[:id])
-      redemptions = user.redemptions.includes(:reward).order(redeemed_at: :desc)
-
-      render json: redemptions.map { |redemption| serialize_redemption(redemption) }
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'User not found' }, status: :not_found
-    end
-
-    private
-
-    def serialize_redemption(redemption)
-      {
-        id: redemption.id,
-        reward_name: redemption.reward&.name,
-        points_used: redemption.points_used,
-        redeemed_at: redemption.redeemed_at
-      }
-    end
   end
 end

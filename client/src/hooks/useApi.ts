@@ -120,13 +120,13 @@ export function invalidateCache(url?: string) {
 
 // Mutation for redeeming rewards
 export async function redeemReward(rewardId: number): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/redemptions`, {
+  const userId = getCurrentUserId()
+  const response = await fetch(`${API_BASE_URL}/users/${userId}/redemptions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      user_id: getCurrentUserId(),
       reward_id: rewardId
     })
   })
@@ -137,7 +137,6 @@ export async function redeemReward(rewardId: number): Promise<void> {
   }
   
   // Clear specific cache entries for user points and rewards
-  const userId = getCurrentUserId()
   invalidateCache(`${API_BASE_URL}/users/${userId}/balance`)
   invalidateCache(`${API_BASE_URL}/rewards`)
   invalidateCache(`${API_BASE_URL}/users/${userId}/redemptions`)

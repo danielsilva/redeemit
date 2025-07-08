@@ -12,9 +12,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'users/:id/balance', to: 'users#balance'
-    get 'users/:id/redemptions', to: 'users#redemptions'
     get 'rewards', to: 'rewards#index'
-    post 'redemptions', to: 'redemptions#create'
+    
+    resources :users, only: [] do
+      resources :redemptions, only: [:index, :create]
+    end
   end
 
   # Catch-all route for frontend pages (must be last)

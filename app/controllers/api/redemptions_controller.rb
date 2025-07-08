@@ -3,6 +3,15 @@
 module Api
   # Controller for handling reward redemptions
   class RedemptionsController < Api::ApiController
+    def index
+      user = User.find(params[:user_id])
+      redemptions = user.redemptions.includes(:reward).order(redeemed_at: :desc)
+
+      render json: redemptions.map { |redemption| serialize_redemption(redemption) }
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'User not found' }, status: :not_found
+    end
+
     def create
       user = User.find(params[:user_id])
       reward = Reward.find(params[:reward_id])
@@ -35,6 +44,15 @@ module Api
     def update_user_and_reward(user, reward)
       user.update!(points_balance: user.points_balance - reward.points_cost)
       reward.update!(available_quantity: reward.available_quantity - 1)
+    end
+
+    def serialize_redemption(redemption)
+      {
+        id: redemption.id,
+        reward_name: redemption.reward&.name,
+        points_used: redemption.points_used,
+        redeemed_at: redemption.redeemed_at
+      }
     end
 
     def render_success_response(redemption, user)

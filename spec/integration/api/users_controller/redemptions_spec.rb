@@ -16,10 +16,13 @@ RSpec.describe Api::UsersController, type: :request do
       json_response = JSON.parse(response.body)
       expect(json_response.length).to eq(3)
 
+      redemption_ids = redemptions.map(&:id)
       json_response.each do |redemption_json|
         expect(redemption_json).to include(
+          'id' => be_in(redemption_ids),
+          'reward_name' => be_a(String),
           'points_used' => be_a(Integer),
-          'reward_id' => be_a(Integer)
+          'redeemed_at' => be_a(String)
         )
       end
     end

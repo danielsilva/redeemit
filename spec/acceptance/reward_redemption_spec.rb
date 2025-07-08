@@ -18,14 +18,11 @@ RSpec.describe 'Reward Redemption', type: :acceptance, js: true do
   describe 'successful redemption' do
     it 'redeems a reward' do
       dashboard_page.click_rewards_link
-
       expect(rewards_page).to have_reward(reward.name)
       expect(rewards_page).to have_redeem_button(reward.name)
 
       initial_quantity = rewards_page.reward_available_quantity(reward.name)
-
       rewards_page.redeem_reward(reward.name)
-
       expect(rewards_page).to have_success_message('Reward redeemed successfully')
       expect(rewards_page.reward_available_quantity(reward.name)).to eq(initial_quantity - 1)
 
@@ -58,7 +55,6 @@ RSpec.describe 'Reward Redemption', type: :acceptance, js: true do
 
       dashboard_page.click_rewards_link
 
-      # Verify out of stock reward is visible but shows out of stock message
       expect(rewards_page).to have_reward(out_of_stock_reward.name)
       expect(rewards_page).to have_out_of_stock_message(out_of_stock_reward.name)
       expect(rewards_page).not_to have_redeem_button(out_of_stock_reward.name)

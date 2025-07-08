@@ -22,18 +22,6 @@ function App() {
     }
   }
 
-  const renderCurrentView = () => {
-    switch (currentView) {
-      case 'dashboard':
-        return <Dashboard onNavigate={setCurrentView} />
-      case 'rewards':
-        return <RewardsList onRedeem={handleRedemption} />
-      case 'history':
-        return <RedemptionHistory />
-      default:
-        return <Dashboard onNavigate={setCurrentView} />
-    }
-  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -77,7 +65,9 @@ function App() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <ErrorBoundary>
           <Suspense fallback={<Loading />}>
-            {renderCurrentView()}
+            {currentView === 'dashboard' && <Dashboard onNavigate={setCurrentView} />}
+            {currentView === 'rewards' && <RewardsList onRedeem={handleRedemption} />}
+            {currentView === 'history' && <RedemptionHistory />}
           </Suspense>
         </ErrorBoundary>
       </main>

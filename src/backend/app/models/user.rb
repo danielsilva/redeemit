@@ -7,6 +7,6 @@ class User < ApplicationRecord
   validates :points_balance, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def can_redeem?(reward)
-    points_balance >= reward.points_cost && reward.available_quantity > 0
+    points_balance >= reward.points_cost
   end
 end

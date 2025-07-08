@@ -3,21 +3,15 @@ class Api::RedemptionsController < Api::ApiController
     user = User.find(params[:user_id])
     reward = Reward.find(params[:reward_id])
 
-    unless user.can_redeem?(reward)
-      return render json: {
-        error: "Insufficient points or reward not available"
-      }, status: :unprocessable_entity
-    end
-
     ActiveRecord::Base.transaction do
-      user.update!(points_balance: user.points_balance - reward.points_cost)
-      reward.update!(available_quantity: reward.available_quantity - 1)
-
       redemption = Redemption.create!(
         user: user,
         reward: reward,
         points_used: reward.points_cost
       )
+
+      user.update!(points_balance: user.points_balance - reward.points_cost)
+      reward.update!(available_quantity: reward.available_quantity - 1)
 
       render json: {
         id: redemption.id,
